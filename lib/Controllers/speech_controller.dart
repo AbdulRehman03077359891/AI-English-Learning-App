@@ -26,19 +26,23 @@ class SpeechController extends GetxController {
     try {
       // Set default settings
       flutterTts.setPitch(1.1);
-      flutterTts.setSpeechRate(0.4);
+      flutterTts.setSpeechRate(0.35);
       flutterTts.setVolume(1);
 
       // Load supported languages
       List<dynamic> languages = await flutterTts.getLanguages;
-      availableLanguages.value = languages.map((lang) => lang.toString()).toList();
+      availableLanguages.value =
+          languages.map((lang) => lang.toString()).toList();
 
       // Load supported voices (if available)
       List<dynamic>? voices = await flutterTts.getVoices;
       if (voices != null) {
-        availableVoices.value = voices.map((voice) {
-          return Map<String, String>.from(voice as Map);
-        }).toSet().toList();
+        availableVoices.value = voices
+            .map((voice) {
+              return Map<String, String>.from(voice as Map);
+            })
+            .toSet()
+            .toList();
       }
 
       // Set default handlers
@@ -74,62 +78,56 @@ class SpeechController extends GetxController {
   void stopSpeaking() {
     flutterTts.stop();
     isSpeaking.value = false;
-    isActive.value = false; // Mark controller as inactive
+    isActive.value = false; // Mark as inactive
     currentChunkIndex = 0; // Reset chunk index
+    print("Stopped speaking.");
   }
 
   void _splitTextIntoChunks(String text, {int chunkSize = 1000}) {
-  // Clean and replace characters
-  String cleanedText = text
-      .replaceAll(RegExp(r'#+'), '') // Remove hashes
-      .replaceAll('*', ',') // Replace commas with asterisks
-      .replaceAll('-', ' ') // Replace spaces with hyphens
-      .replaceAll("____", "dash")
-      .trim();
+    // Clean and replace characters
+    String cleanedText = text
+        .replaceAll("/", ", , ")
+        .replaceAll(RegExp(r'#+'), '') // Remove hashes
+        .replaceAll('** ', ', , ') // Replace commas with asterisks
+        .replaceAll('-', ' ') // Replace spaces with hyphens
+        .replaceAll("________", "Blank, ")
+        .replaceAll("____", "Blank, ")
+        .trim();
 
-  textChunks = []; // Clear previous chunks
+    textChunks = []; // Clear previous chunks
 
-  // Split the text into chunks
-  RegExp regex = RegExp(".{1,$chunkSize}(\\s|\\b|\$)", multiLine: true);
-  regex.allMatches(cleanedText).forEach((match) {
-    textChunks.add(match.group(0)!.trim());
-  });
-}
-
-
-  Future<void> _speakNextChunk() async {
-    while (isActive.value && currentChunkIndex < textChunks.length) {
-      final currentChunk = textChunks[currentChunkIndex];
-      print("Speaking chunk ${currentChunkIndex + 1}: $currentChunk");
-
-      // Speak the current chunk
-      await flutterTts.speak(currentChunk);
-
-      // Estimate the duration required for the current chunk
-      final estimatedDuration = _estimateSpeechDuration(currentChunk);
-
-      // Wait for the estimated duration
-      await Future.delayed(estimatedDuration);
-
-      // Increment the chunk index if still active
-      if (isActive.value) {
-        currentChunkIndex++;
-      }
-    }
-
-    // Set speaking status to false when all chunks are spoken
-    if (!isActive.value || currentChunkIndex >= textChunks.length) {
-      isSpeaking.value = false;
-      print("Finished speaking all chunks.");
-    }
+    // Split the text into chunks
+    RegExp regex = RegExp(".{1,$chunkSize}(\\s|\\b|\$)", multiLine: true);
+    regex.allMatches(cleanedText).forEach((match) {
+      textChunks.add(match.group(0)!.trim());
+    });
+    textChunks = textChunks.where((chunk) => chunk.isNotEmpty).toList();
   }
 
-Duration _estimateSpeechDuration(String text) {
-  const averageLettersPerSecond = 12; // Adjust based on TTS speed settings
-  final letterCount = text.length;
-  final estimatedSeconds = letterCount / averageLettersPerSecond;
-  return Duration(seconds: estimatedSeconds.ceil());
-}
+  Future<void> _speakNextChunk() async {
+    // if (isSpeaking.value ||
+    //     currentChunkIndex >= textChunks.length ||
+    //     !isActive.value) {
+    //   return; // Prevent overlapping or redundant calls
+    // }
+
+    final currentChunk = textChunks[currentChunkIndex];
+    print("Speaking chunk ${currentChunkIndex + 1}: $currentChunk");
+
+    isSpeaking.value = true; // Mark as speaking
+    await flutterTts.speak(currentChunk);
+
+    // Listen for completion instead of waiting for an estimated delay
+    flutterTts.setCompletionHandler(() {
+      isSpeaking.value = false; // Mark as not speaking
+      currentChunkIndex++;
+      if (currentChunkIndex < textChunks.length && isActive.value) {
+        _speakNextChunk(); // Speak next chunk
+      } else {
+        print("Finished speaking all chunks.");
+      }
+    });
+  }
 
   void changeLanguage(String language) {
     selectedLanguage.value = language;

@@ -1,3 +1,4 @@
+import 'package:ai_english_learning/Controllers/speech_controller.dart';
 import 'package:ai_english_learning/manager/ticker.dart';
 import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
@@ -8,16 +9,18 @@ class TextAnimationController extends GetxController {
   late Animation<int> textAnimation;
   final totalDurationInSeconds = 0.0.obs;
 
-  static const double charDurationInSeconds = 0.1; // Fixed duration per character
+  static const double charDurationInSeconds =
+      0.1; // Fixed duration per character
 
   // Use the CustomTickerProvider
   late final CustomTickerProvider tickerProvider = CustomTickerProvider();
-
+  final SpeechController speechController = Get.put(SpeechController());
   // Initialize the animation controller and animations
   void initializeAnimation(String text) {
+    speechController.speak(text);
     // Dispose the existing animation controller, if any
     animationController?.dispose();
-
+    text = removeSymbols(text);
     // Clean the text by removing non-alphabetical characters
     String cleanedText = text.replaceAll(RegExp(r'[^a-zA-Z]'), '');
 
@@ -27,7 +30,8 @@ class TextAnimationController extends GetxController {
     // Create a new AnimationController
     animationController = AnimationController(
       vsync: tickerProvider,
-      duration: Duration(milliseconds: (totalDurationInSeconds.value * 1000).toInt()),
+      duration:
+          Duration(milliseconds: (totalDurationInSeconds.value * 1000).toInt()),
     );
 
     // StepTween to animate over the length of the text
@@ -41,10 +45,15 @@ class TextAnimationController extends GetxController {
     playAnimation(); // Start the animation
   }
 
+  String removeSymbols(String text) {
+    return text.replaceAll(RegExp(r'[-#]'), '');
+  }
+
   // Reset and play the animation
   void playAnimation() {
     if (animationController == null) {
-      throw Exception("AnimationController is not initialized. Call initializeAnimation first.");
+      throw Exception(
+          "AnimationController is not initialized. Call initializeAnimation first.");
     }
     animationController!.reset();
     animationController!.forward();

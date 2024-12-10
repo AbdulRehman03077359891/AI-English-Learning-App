@@ -8,9 +8,10 @@ import 'package:get/get.dart';
 class EnglishLearningScreen extends StatefulWidget {
   final String text; // Accept the text as a parameter
   final String className;
+  final String classKey;
 
   const EnglishLearningScreen(
-      {Key? key, required this.text, required this.className})
+      {Key? key, required this.text, required this.className, required this.classKey})
       : super(key: key);
 
   @override
@@ -40,15 +41,23 @@ class _EnglishLearningScreenState extends State<EnglishLearningScreen> {
 
   // Function to parse the text into topics
   List<String> _parseText(String text) {
-    String formattedText =
-        text.replaceAll(RegExp(r'\bstep\b', caseSensitive: false), '### step');
-    List<String> splitTopics =
-        formattedText.split('###').map((e) => e.trim()).toList();
-    return splitTopics
-        .where((topic) => topic.isNotEmpty)
-        .map((topic) => topic.startsWith("###") ? topic : "### $topic")
-        .toList();
-  }
+  // Add ### before "step" and before any sentence containing ":"
+  String formattedText = text
+      // .replaceAll(RegExp(r'\bstep\b', caseSensitive: false), '### step')
+      .replaceAllMapped(
+          RegExp(r'([^#\n]*:.*)'), // Match lines containing ":"
+          (match) => "### ${match.group(1)}");
+
+  // Split into topics
+  List<String> splitTopics =
+      formattedText.split('###').map((e) => e.trim()).toList();
+
+  // Ensure all topics are prefixed with "###"
+  return splitTopics
+      .where((topic) => topic.isNotEmpty)
+      .map((topic) => topic.startsWith("###") ? topic : "### $topic")
+      .toList();
+}
 
   // Navigate to the previous topic
   void _goToPrevious() {
@@ -101,7 +110,6 @@ class _EnglishLearningScreenState extends State<EnglishLearningScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
                     child: Container(
-                      height: MediaQuery.of(context).size.height * .4,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         gradient: const LinearGradient(
@@ -113,15 +121,18 @@ class _EnglishLearningScreenState extends State<EnglishLearningScreen> {
                           ],
                         ),
                       ),
-                      child: SingleChildScrollView(
-                        reverse: true,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Text(
-                            textAnimationController.displayedText.value,
-                            style: const TextStyle(
-                                fontSize: 16.0, color: Colors.black),
-                            textAlign: TextAlign.start,
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * .4),
+                        child: SingleChildScrollView(
+                          reverse: true,
+                          child: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Text(
+                              textAnimationController.displayedText.value,
+                              style: const TextStyle(
+                                  fontSize: 16.0, color: Colors.black),
+                              textAlign: TextAlign.start,
+                            ),
                           ),
                         ),
                       ),
@@ -142,7 +153,7 @@ class _EnglishLearningScreenState extends State<EnglishLearningScreen> {
                           text: "Take Exam",
                           textColor: Colors.cyan,
                           onPressed: () {
-                            Get.off(ExamScreen());
+                            Get.off(ExamScreen(classKey: widget.classKey,));
                           })
                       : E1Button(
                           backColor: const Color.fromARGB(255, 21, 49, 71),

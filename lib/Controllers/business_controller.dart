@@ -16,7 +16,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 class BusinessController extends GetxController {
   bool isLoading = false;
   var allLevels = [];
-  var allClasses = [];
+  RxList allClasses = [].obs;
   var dropDownClassValue = "";
   var selectDropDownClassKey = "";
   var dropDownLevelValue = "";
@@ -152,7 +152,7 @@ class BusinessController extends GetxController {
   }
 
   Future<void> deleteClassAndShiftPositions(
-      String classKey, String levelKey,  userUid, userName, userEmail) async {
+      String classKey, String levelKey, userUid, userName, userEmail) async {
     // Reference to the classes collection
     final classRef = FirebaseFirestore.instance.collection("Class");
 
@@ -180,7 +180,6 @@ class BusinessController extends GetxController {
     }
     Get.off(AdminDashboard(
         userUid: userUid, userName: userName, userEmail: userEmail));
-  
   }
 
 // Deleting Dish =========
@@ -503,13 +502,17 @@ class BusinessController extends GetxController {
   // getting Classes Data --------------------------------------------------
   getClasses(userUid) async {
     setLoading(true);
-    CollectionReference levelsInst =
-        FirebaseFirestore.instance.collection("Class");
-    levelsInst.snapshots().listen((QuerySnapshot data) {
-      allClasses = data.docs.map((doc) => doc.data()).toList();
-    });
-    setLoading(false);
-    update();
+    try {
+      CollectionReference levelsInst =
+          FirebaseFirestore.instance.collection("Class");
+      levelsInst.snapshots().listen((QuerySnapshot data) {
+        var classes = data.docs.map((doc) => doc.data()).toList();
+        allClasses.value = classes;
+      });
+      setLoading(false);
+    } finally {
+      update();
+    }
   }
 
 // Setting Drop Down Value ------------------------------------------------

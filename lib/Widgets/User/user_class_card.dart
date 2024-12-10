@@ -77,7 +77,7 @@ class UserClassCard extends StatelessWidget {
                   padding: const EdgeInsets.all(10),
                   child: InkWell(
                     onTap: () {
-                      Get.to(EnglishLearningScreen(text: description, className: className));
+                      Get.to(EnglishLearningScreen(text: description, className: className, classKey: classKey,));
                       // Get.to(() => ClassDetailScreen(
                       //       className: className,
                       //       description: description,
