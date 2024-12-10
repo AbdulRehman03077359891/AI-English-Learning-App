@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "540397455886",
+    "firebase_url": "https://humanlibrary-f2d24-default-rtdb.firebaseio.com",
+    "project_id": "humanlibrary-f2d24",
+    "storage_bucket": "humanlibrary-f2d24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540397455886:android:e111fa80594ebe39d5ca5f",
+        "android_client_info": {
+          "package_name": "com.example.ai_english_learning"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWi1f6r9fvH2TkLi-W16XeEg8pMwhcxGk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540397455886:android:ed80e38ff283ea6bd5ca5f",
+        "android_client_info": {
+          "package_name": "com.example.islamiah"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWi1f6r9fvH2TkLi-W16XeEg8pMwhcxGk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
