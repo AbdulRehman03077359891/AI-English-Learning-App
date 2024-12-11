@@ -9,9 +9,16 @@ class EnglishLearningScreen extends StatefulWidget {
   final String text; // Accept the text as a parameter
   final String className;
   final String classKey;
+  final String levelKey;
+  final String userUid;
 
   const EnglishLearningScreen(
-      {Key? key, required this.text, required this.className, required this.classKey})
+      {Key? key,
+      required this.text,
+      required this.className,
+      required this.classKey,
+      required this.levelKey,
+      required this.userUid})
       : super(key: key);
 
   @override
@@ -41,23 +48,23 @@ class _EnglishLearningScreenState extends State<EnglishLearningScreen> {
 
   // Function to parse the text into topics
   List<String> _parseText(String text) {
-  // Add ### before "step" and before any sentence containing ":"
-  String formattedText = text
-      // .replaceAll(RegExp(r'\bstep\b', caseSensitive: false), '### step')
-      .replaceAllMapped(
-          RegExp(r'([^#\n]*:.*)'), // Match lines containing ":"
-          (match) => "### ${match.group(1)}");
+    // Add ### before "step" and before any sentence containing ":"
+    String formattedText = text
+        // .replaceAll(RegExp(r'\bstep\b', caseSensitive: false), '### step')
+        .replaceAllMapped(
+            RegExp(r'([^#\n]*:.*)'), // Match lines containing ":"
+            (match) => "### ${match.group(1)}");
 
-  // Split into topics
-  List<String> splitTopics =
-      formattedText.split('###').map((e) => e.trim()).toList();
+    // Split into topics
+    List<String> splitTopics =
+        formattedText.split('###').map((e) => e.trim()).toList();
 
-  // Ensure all topics are prefixed with "###"
-  return splitTopics
-      .where((topic) => topic.isNotEmpty)
-      .map((topic) => topic.startsWith("###") ? topic : "### $topic")
-      .toList();
-}
+    // Ensure all topics are prefixed with "###"
+    return splitTopics
+        .where((topic) => topic.isNotEmpty)
+        .map((topic) => topic.startsWith("###") ? topic : "### $topic")
+        .toList();
+  }
 
   // Navigate to the previous topic
   void _goToPrevious() {
@@ -122,7 +129,8 @@ class _EnglishLearningScreenState extends State<EnglishLearningScreen> {
                         ),
                       ),
                       child: ConstrainedBox(
-                        constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * .4),
+                        constraints: BoxConstraints(
+                            maxHeight: MediaQuery.of(context).size.height * .4),
                         child: SingleChildScrollView(
                           reverse: true,
                           child: Padding(
@@ -153,7 +161,11 @@ class _EnglishLearningScreenState extends State<EnglishLearningScreen> {
                           text: "Take Exam",
                           textColor: Colors.cyan,
                           onPressed: () {
-                            Get.off(ExamScreen(classKey: widget.classKey,));
+                            Get.off(ExamScreen(
+                              classKey: widget.classKey,
+                              userUid: widget.userUid,
+                              levelKey: widget.levelKey,
+                            ));
                           })
                       : E1Button(
                           backColor: const Color.fromARGB(255, 21, 49, 71),

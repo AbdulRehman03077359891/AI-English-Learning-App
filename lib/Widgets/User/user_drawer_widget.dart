@@ -2,7 +2,7 @@ import 'package:ai_english_learning/Animation/tile_animation.dart';
 import 'package:ai_english_learning/Animation/background_gradient_animation.dart';
 import 'package:ai_english_learning/Controllers/animation_controller.dart';
 import 'package:ai_english_learning/Screen/User/personal_data.dart';
-import 'package:ai_english_learning/Widgets/User/settings.dart';
+// import 'package:ai_english_learning/Widgets/User/settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -143,12 +143,12 @@ class _UserDrawerWidgetState extends State<UserDrawerWidget> {
               ),
             )
       },
-      {
-        'icon': Icons.settings,
-        'title': "Settings",
-        "onPress": () => Get.to(const SpeechSettingsPage())
+      // {
+      //   'icon': Icons.settings,
+      //   'title': "Settings",
+      //   "onPress": () => Get.to(const SpeechSettingsPage())
             
-      },
+      // },
       {
         'icon': Icons.logout,
         'title': "Log Out",

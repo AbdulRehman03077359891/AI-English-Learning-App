@@ -54,8 +54,8 @@ class UserClassCard extends StatelessWidget {
             children: [
               // Class Image on the left side
               GestureDetector(
-                onTap: () =>
-                    animateController.showSecondPage("$index", imageUrl, context),
+                onTap: () => animateController.showSecondPage(
+                    "$index", imageUrl, context),
                 child: Hero(
                   tag: "$index",
                   child: ClipRRect(
@@ -77,7 +77,13 @@ class UserClassCard extends StatelessWidget {
                   padding: const EdgeInsets.all(10),
                   child: InkWell(
                     onTap: () {
-                      Get.to(EnglishLearningScreen(text: description, className: className, classKey: classKey,));
+                      Get.to(EnglishLearningScreen(
+                        text: description,
+                        className: className,
+                        classKey: classKey,
+                        userUid: userUid,
+                        levelKey: levelKey,
+                      ));
                       // Get.to(() => ClassDetailScreen(
                       //       className: className,
                       //       description: description,
