@@ -80,7 +80,7 @@ class SpeechController extends GetxController {
     isSpeaking.value = false;
     isActive.value = false; // Mark as inactive
     currentChunkIndex = 0; // Reset chunk index
-    print("Stopped speaking.");
+    // print("Stopped speaking.");
   }
 
   void _splitTextIntoChunks(String text, {int chunkSize = 1000}) {
@@ -112,7 +112,7 @@ class SpeechController extends GetxController {
     // }
 
     final currentChunk = textChunks[currentChunkIndex];
-    print("Speaking chunk ${currentChunkIndex + 1}: $currentChunk");
+    // print("Speaking chunk ${currentChunkIndex + 1}: $currentChunk");
 
     isSpeaking.value = true; // Mark as speaking
     await flutterTts.speak(currentChunk);
@@ -124,7 +124,7 @@ class SpeechController extends GetxController {
       if (currentChunkIndex < textChunks.length && isActive.value) {
         _speakNextChunk(); // Speak next chunk
       } else {
-        print("Finished speaking all chunks.");
+        // print("Finished speaking all chunks.");
       }
     });
   }

@@ -84,19 +84,6 @@ class UserClassCard extends StatelessWidget {
                         userUid: userUid,
                         levelKey: levelKey,
                       ));
-                      // Get.to(() => ClassDetailScreen(
-                      //       className: className,
-                      //       description: description,
-                      //       imageUrl: imageUrl,
-                      //       userUid: userUid,
-                      //       userName: userName,
-                      //       userEmail: userEmail,
-                      //       classKey: classKey,
-                      //       levelName: levelName,
-                      //       levelKey: levelKey,
-                      //       adminUid: adminUid,
-                      //       index: index,
-                      //     ));
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

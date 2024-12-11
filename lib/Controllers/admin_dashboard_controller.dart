@@ -42,7 +42,7 @@ class AdminDashboardController extends GetxController {
           userCount.value = usersMap.length;
         }
       } catch (e) {
-        print("Error fetching users: $e");
+        // print("Error fetching users: $e");
       }
     });
   }

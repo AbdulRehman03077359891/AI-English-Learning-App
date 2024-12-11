@@ -61,7 +61,7 @@ class SpeechSettingsPage extends StatelessWidget {
                           child: Text(voice['name'] ?? 'Unknown'),
                         ))
                     .toList(),
-                hint: Text('Select a voice'),
+                hint: const Text('Select a voice'),
               );
             }),
 

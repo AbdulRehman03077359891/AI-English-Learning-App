@@ -1,5 +1,5 @@
 import 'package:ai_english_learning/Animation/background_gradient_animation.dart';
-import 'package:ai_english_learning/Controllers/Animation/text_animation_controller.dart';
+import 'package:ai_english_learning/Animation/text_animation_controller.dart';
 import 'package:ai_english_learning/Controllers/exam_controller.dart';
 import 'package:ai_english_learning/Controllers/user_dashboard_controller.dart';
 import 'package:ai_english_learning/Widgets/e1_button.dart';
@@ -130,7 +130,7 @@ class _ExamScreenState extends State<ExamScreen> {
         labelColor: Colors.cyan,
         errorBorderColor: Colors.red,
         controller: _answerController,
-        onchange: (value) => examController.updateAnswer(value),
+        change: (value) => examController.updateAnswer(value),
         labelText: "Your Answer",
       );
     } else if (questionType == "multiple-choice") {

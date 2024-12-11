@@ -67,7 +67,7 @@ class ExamController extends GetxController {
         ];
         totalMarks.value = questions.fold(
           0,
-          (sum, q) => sum + (q["marks"] as int),
+          (add, q) => add + (q["marks"] as int),
         );
       } else {
         Get.snackbar(

@@ -1,5 +1,5 @@
 import 'package:ai_english_learning/Animation/background_gradient_animation.dart';
-import 'package:ai_english_learning/Controllers/Animation/text_animation_controller.dart';
+import 'package:ai_english_learning/Animation/text_animation_controller.dart';
 import 'package:ai_english_learning/Screen/User/exam_screen.dart';
 import 'package:ai_english_learning/Widgets/e1_button.dart';
 import 'package:flutter/material.dart';
@@ -13,16 +13,15 @@ class EnglishLearningScreen extends StatefulWidget {
   final String userUid;
 
   const EnglishLearningScreen(
-      {Key? key,
+      {super.key,
       required this.text,
       required this.className,
       required this.classKey,
       required this.levelKey,
-      required this.userUid})
-      : super(key: key);
+      required this.userUid});
 
   @override
-  _EnglishLearningScreenState createState() => _EnglishLearningScreenState();
+  State<EnglishLearningScreen> createState() => _EnglishLearningScreenState();
 }
 
 class _EnglishLearningScreenState extends State<EnglishLearningScreen> {

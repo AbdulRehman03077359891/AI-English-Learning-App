@@ -1,7 +1,7 @@
 import 'package:ai_english_learning/Animation/background_gradient_animation.dart';
 import 'package:ai_english_learning/Controllers/business_controller.dart';
 import 'package:ai_english_learning/Controllers/fire_controller.dart';
-import 'package:ai_english_learning/Widgets/blood_type.dart';
+import 'package:ai_english_learning/Widgets/choose_true_false.dart';
 import 'package:ai_english_learning/Widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -85,7 +85,7 @@ class _AddExamsState extends State<AddExams> {
                         const Text("Question Answers",style: TextStyle(fontWeight: FontWeight.bold,color: Color.fromARGB(255, 21, 49, 71),fontSize: 20),),
                         TextFieldWidget(
                           validate: (value) {
-                            if (value.isEmpty){
+                            if (value!.isEmpty){
                               return "Question Required";
                             }else{
                               return null;
@@ -107,7 +107,7 @@ class _AddExamsState extends State<AddExams> {
                         const SizedBox(height: 10,),
                         TextFieldWidget(
                           validate: (value) {
-                            if (value.isEmpty){
+                            if (value!.isEmpty){
                               return "Answer Required";
                             }else{
                               return null;
@@ -129,7 +129,7 @@ class _AddExamsState extends State<AddExams> {
                         const SizedBox(height: 40,),
                         TextFieldWidget(
                           validate: (value) {
-                            if (value.isEmpty){
+                            if (value!.isEmpty){
                               return "Question Required";
                             }else{
                               return null;
@@ -151,7 +151,7 @@ class _AddExamsState extends State<AddExams> {
                         const SizedBox(height: 10,),
                         TextFieldWidget(
                           validate: (value) {
-                            if (value.isEmpty){
+                            if (value!.isEmpty){
                               return "Answer Required";
                             }else{
                               return null;
@@ -174,7 +174,7 @@ class _AddExamsState extends State<AddExams> {
                         const Text("MCQs",style: TextStyle(fontWeight: FontWeight.bold,color: Color.fromARGB(255, 21, 49, 71),fontSize: 20),),
                         TextFieldWidget(
                           validate: (value) {
-                            if (value.isEmpty){
+                            if (value!.isEmpty){
                               return "Question Required";
                             }else{
                               return null;
@@ -196,7 +196,7 @@ class _AddExamsState extends State<AddExams> {
                         const SizedBox(height: 10,),
                         TextFieldWidget(
                           validate: (value) {
-                            final commaCount = value.split(',').length -1;
+                            final commaCount = value!.split(',').length -1;
                             if (commaCount > 3){
                               return "You can only input up to 4 values and last value must end without comma";
                             }else if (commaCount < 3){
@@ -223,7 +223,7 @@ class _AddExamsState extends State<AddExams> {
                         const SizedBox(height: 10,),
                         TextFieldWidget(
                           validate: (value) {
-                            if (value.isEmpty){
+                            if (value!.isEmpty){
                               return "Answer Required";
                             }else{
                               return null;
@@ -245,7 +245,7 @@ class _AddExamsState extends State<AddExams> {
                         const SizedBox(height: 40,),
                         TextFieldWidget(
                           validate: (value) {
-                            if (value.isEmpty){
+                            if (value!.isEmpty){
                               return "Question Required";
                             }else{
                               return null;
@@ -267,7 +267,7 @@ class _AddExamsState extends State<AddExams> {
                         const SizedBox(height: 10,),
                         TextFieldWidget(
                           validate: (value) {
-                            final commaCount = value.split(',').length -1;
+                            final commaCount = value!.split(',').length -1;
                             if (commaCount > 3){
                               return "You can only input up to 4 values and last value must end without comma";
                             }else if (commaCount < 3){
@@ -295,7 +295,7 @@ class _AddExamsState extends State<AddExams> {
                         const SizedBox(height: 10,),
                         TextFieldWidget(
                           validate: (value) {
-                            if (value.isEmpty){
+                            if (value!.isEmpty){
                               return "Answer Required";
                             }else{
                               return null;
@@ -318,7 +318,7 @@ class _AddExamsState extends State<AddExams> {
                         const Text("True/False",style: TextStyle(fontWeight: FontWeight.bold,color: Color.fromARGB(255, 21, 49, 71),fontSize: 20),),
                         TextFieldWidget(
                           validate: (value) {
-                            if (value.isEmpty){
+                            if (value!.isEmpty){
                               return "Question Required";
                             }else{
                               return null;

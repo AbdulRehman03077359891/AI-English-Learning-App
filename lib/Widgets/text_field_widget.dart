@@ -3,25 +3,18 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class TextFieldWidget extends StatelessWidget {
   // ignore: prefer_typing_uninitialized_variables
-  final width,
-      controller,
-      validate,
-      hintText,
-      prefixIcon,
-      fillColor,
-      focusBorderColor,
-      hidePassword,
-      suffixIcon,
-      errorBorderColor,
-      suffixIconColor,
-      keyboardType,
-      labelText,
-      labelColor,
-      lines,
-      textColor,
-      textCapitalization,
-      hintColor,
-      onchange;
+  final double? width;
+  final TextEditingController? controller;
+  final String? Function(String?)? validate;
+  final String? hintText, labelText;
+  final Widget? suffixIcon, prefixIcon;
+  final Color? fillColor, labelColor, textColor, suffixIconColor, hintColor;
+  final Color errorBorderColor, focusBorderColor;
+  final bool hidePassword;
+  final TextInputType? keyboardType;
+  final int? lines;
+  final TextCapitalization textCapitalization;
+  final Function(String)? change;
 
   const TextFieldWidget(
       {super.key,
@@ -34,24 +27,23 @@ class TextFieldWidget extends StatelessWidget {
       required this.focusBorderColor,
       this.hidePassword = false,
       this.suffixIcon,
-      this.errorBorderColor,
+      this.errorBorderColor = Colors.red,
       this.suffixIconColor,
       this.keyboardType,
       this.labelText,
       this.labelColor,
-      this.lines=1, 
-      this.textColor, 
-      this.textCapitalization = TextCapitalization.none, 
+      this.lines = 1,
+      this.textColor,
+      this.textCapitalization = TextCapitalization.none,
       this.hintColor,
-      this.onchange
-    });
-  
+      this.change});
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
       child: TextFormField(
-        onChanged: onchange,
+        onChanged: change,
         textCapitalization: textCapitalization,
         style: TextStyle(color: textColor),
         minLines: lines,
@@ -61,11 +53,12 @@ class TextFieldWidget extends StatelessWidget {
         controller: controller,
         validator: validate,
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(vertical: 15,horizontal: 20),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
           labelStyle: TextStyle(color: labelColor),
           labelText: labelText,
           hintText: hintText,
-          hintStyle: TextStyle(color: hintColor,fontWeight: FontWeight.w300),
+          hintStyle: TextStyle(color: hintColor, fontWeight: FontWeight.w300),
           suffixIcon: suffixIcon,
           suffixIconColor: suffixIconColor,
           prefixIcon: prefixIcon,

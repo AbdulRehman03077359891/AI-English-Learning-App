@@ -15,7 +15,7 @@ class UserController extends GetxController{
     isLoading.value = val;
   }
 
-  formRequest(userUid, userName, userEmail, userPic, userContact, userCnic, userAdress, userGender, userBloodType, classKey, classPic, className, hosName, adminUid) async {
+  formRequest(userUid, userName, userEmail, userPic, userContact, userCnic, userAddress, userGender, userBloodType, classKey, classPic, className, hosName, adminUid) async {
     CollectionReference reqIns = FirebaseFirestore.instance.collection("Requests");
     var reqKey = FirebaseDatabase.instance.ref("Requests").push().key;
 

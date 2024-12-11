@@ -184,7 +184,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             } else if (!_checkSpecial) {
                               return "Special Character Required";
                             } else if (value.length < 8) {
-                              return "Atleast 8 characters Required";
+                              return "At least 8 characters Required";
                             } else {
                               return null;
                             }

@@ -14,7 +14,7 @@ class ReusableConfirmationDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(backgroundColor: Color.fromARGB(255, 190, 190, 190),
+    return AlertDialog(backgroundColor: const Color.fromARGB(255, 190, 190, 190),
       title: Text(
         title,
         style: const TextStyle(fontSize: 20),

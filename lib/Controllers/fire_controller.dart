@@ -1,15 +1,3 @@
-// ignore_for_file: non_constant_identifier_names, file_names
-// cupertino_icons: ^1.0.6
-//   firebase_core: ^3.1.1
-//   firebase_auth: ^5.1.1
-//   firebase_storage: ^12.1.0
-//   font_awesome_flutter: ^10.7.0
-//   image_picker: ^1.1.2
-//   cloud_firestore: ^5.0.2
-//   firebase_database: ^11.0.2
-//   get: ^4.6.6
-//   shared_preferences: ^2.
-
 import 'dart:io';
 
 import 'package:ai_english_learning/Screen/Admin/admin_dashboard.dart';
@@ -92,10 +80,10 @@ class FireController extends GetxController {
 
   // Picking Image
   Future<void> pickImage(source, picker, context) async {
-    final PickedFile = await picker.pickImage(source: source);
+    final pickedFile = await picker.pickImage(source: source);
 
     Navigator.pop(context);
-    pickedImageFile.value = File(PickedFile!.path);
+    pickedImageFile.value = File(pickedFile!.path);
     update();
   }
 
@@ -368,7 +356,7 @@ class FireController extends GetxController {
     });
   }
   // Fetch All Business Users
-  Future<void> getAllBusiUsers() async {
+  Future<void> getAllBusinessUsers() async {
     CollectionReference users = FirebaseFirestore.instance.collection("BusinessUsers");
     usersListB.clear();
     await users.get().then((QuerySnapshot snapshot) {

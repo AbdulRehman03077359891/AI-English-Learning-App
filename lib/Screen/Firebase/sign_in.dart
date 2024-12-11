@@ -4,7 +4,6 @@ import 'package:ai_english_learning/Screen/Firebase/sign_up.dart';
 import 'package:ai_english_learning/Widgets/text_field_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -151,7 +150,7 @@ class _SignInPageState extends State<SignInPage> {
                           } else if (!_checkSpecial) {
                             return "Special Character Required";
                           } else if (value.length < 8) {
-                            return "Atleast 8 characters Required";
+                            return "At least 8 characters Required";
                           } else {
                             return null;
                           }

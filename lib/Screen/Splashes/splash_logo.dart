@@ -25,22 +25,22 @@ class _SplashLogoState extends State<SplashLogo> {
   }
 
   checkUser() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var userCheck = prefs.getBool("Login") ?? false;
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    var userCheck = pref.getBool("Login") ?? false;
     if (userCheck) {
-      var userType = prefs.getString("userType");
+      var userType = pref.getString("userType");
       // Get.offAll(HumanLibrary());
       if (userType == "User") {
         Get.offAll(() => UserScreen(
-              userUid: prefs.getString("userUid").toString(),
-              userName: prefs.getString("userName").toString(),
-              userEmail: prefs.getString("userEmail").toString(),
+              userUid: pref.getString("userUid").toString(),
+              userName: pref.getString("userName").toString(),
+              userEmail: pref.getString("userEmail").toString(),
             ));
       } else if (userType == "Admin") {
         Get.offAll(() => AdminDashboard(
-              userName: prefs.getString("userName").toString(),
-              userEmail: prefs.getString("userEmail").toString(),
-              userUid: prefs.getString("userUid").toString(),
+              userName: pref.getString("userName").toString(),
+              userEmail: pref.getString("userEmail").toString(),
+              userUid: pref.getString("userUid").toString(),
             ));
       }
     } else {
