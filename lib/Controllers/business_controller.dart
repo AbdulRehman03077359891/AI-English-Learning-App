@@ -311,8 +311,8 @@ class BusinessController extends GetxController {
         uiSettings: [
           AndroidUiSettings(
               toolbarTitle: "Image Cropper",
-              toolbarColor: const Color(0xFFE63946),
-              toolbarWidgetColor: Colors.white,
+              toolbarColor: Colors.white,
+              toolbarWidgetColor:const Color.fromARGB(255, 21, 49, 71),
               // initAspectRatio: CropAspectRatioPreset.ratio3x4,
               lockAspectRatio: true,
               hideBottomControls: true),

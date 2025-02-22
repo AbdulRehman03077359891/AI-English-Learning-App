@@ -1,4 +1,3 @@
-
 import 'package:ai_english_learning/Controllers/admin_controller.dart';
 import 'package:ai_english_learning/Controllers/fire_controller.dart';
 // import 'package:ai_english_learning/Widgets/Admin/Level_type.dart';
@@ -51,7 +50,8 @@ class _AddLevelState extends State<AddLevel> {
                             true) {
                           adminController.pickAndCropImage(
                               ImageSource.camera, context);
-                          notify("success", "permission for storage is granted");
+                          notify(
+                              "success", "permission for storage is granted");
                         } else {
                           notify(
                               "error", "permission for storage is not granted");
@@ -73,7 +73,8 @@ class _AddLevelState extends State<AddLevel> {
                             ImageSource.gallery, context);
                         notify("success", "permission for storage is granted");
                       } else {
-                        notify("error", "permission for storage is not granted");
+                        notify(
+                            "error", "permission for storage is not granted");
                       }
                     },
                     icon: const CircleAvatar(
@@ -107,12 +108,12 @@ class _AddLevelState extends State<AddLevel> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
-              onPressed: () {
-                Get.back();
-                fireController.setLoading(false);
-              },
-              icon: const Icon(Icons.arrow_back_ios_new),
-            ),
+          onPressed: () {
+            Get.back();
+            fireController.setLoading(false);
+          },
+          icon: const Icon(Icons.arrow_back_ios_new),
+        ),
         centerTitle: true,
         title: const Text(
           "Levels",
@@ -124,19 +125,48 @@ class _AddLevelState extends State<AddLevel> {
       body: GetBuilder<AdminController>(builder: (adminController) {
         return Container(
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end:Alignment.topCenter,
-                colors: [
-              Color.fromARGB(255, 236, 236, 230),
-              Color.fromARGB(255, 180, 182, 179)
-            ])
-          ),
+              gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                Color.fromARGB(255, 236, 236, 230),
+                Color.fromARGB(255, 180, 182, 179)
+              ])),
           child: SingleChildScrollView(
             child: Column(
               children: [
                 const SizedBox(
                   height: 20,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    showBottomSheet();
+                  },
+                  child: adminController.pickedImageFile.value == null
+                      ? Card(
+                          elevation: 10,
+                          child: Container(
+                            height: 200,
+                            width: 200,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: const DecorationImage(
+                                    image: AssetImage(
+                                        "assets/images/postPlaceHolder.jpeg"),
+                                    fit: BoxFit.cover)),
+                          ))
+                      : Card(
+                          elevation: 10,
+                          child: Container(
+                            height: 200,
+                            width: 200,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                    image: FileImage(
+                                        adminController.pickedImageFile.value!),
+                                    fit: BoxFit.cover)),
+                          )),
                 ),
                 const SizedBox(
                   height: 10,
@@ -190,12 +220,13 @@ class _AddLevelState extends State<AddLevel> {
                         style: const ButtonStyle(
                             fixedSize:
                                 MaterialStatePropertyAll<Size>(Size(160, 20)),
-                            backgroundColor:
-                                MaterialStatePropertyAll(Color.fromARGB(255, 21, 49, 71))),
+                            backgroundColor: MaterialStatePropertyAll(
+                                Color.fromARGB(255, 21, 49, 71))),
                         onPressed: () {
-                          adminController.addLevel(levelController.text,
-                              // _type.text, addressController.text
-                              );
+                          adminController.addLevel(
+                            levelController.text,
+                            // _type.text, addressController.text
+                          );
                           levelController.clear();
                           // _type.clear();
                           // addressController.clear();
@@ -226,8 +257,8 @@ class _AddLevelState extends State<AddLevel> {
                             fontWeight: FontWeight.bold),
                       )),
                       DataTable(
-                        headingRowColor:
-                            const MaterialStatePropertyAll(Color.fromARGB(255, 21, 49, 71)),
+                        headingRowColor: const MaterialStatePropertyAll(
+                            Color.fromARGB(255, 21, 49, 71)),
                         columnSpacing: 20,
                         columns: const [
                           DataColumn(
@@ -300,7 +331,12 @@ class _AddLevelState extends State<AddLevel> {
                                                       style: const ButtonStyle(
                                                           backgroundColor:
                                                               MaterialStatePropertyAll(
-                                                                  Color.fromARGB(255, 21, 49, 71))),
+                                                                  Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          21,
+                                                                          49,
+                                                                          71))),
                                                       onPressed: () {
                                                         Navigator.pop(context);
                                                       },
@@ -314,11 +350,15 @@ class _AddLevelState extends State<AddLevel> {
                                                       style: const ButtonStyle(
                                                           backgroundColor:
                                                               MaterialStatePropertyAll(
-                                                                  Color.fromARGB(255, 21, 49, 71))),
+                                                                  Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          21,
+                                                                          49,
+                                                                          71))),
                                                       onPressed: () {
                                                         adminController
-                                                            .deleteLevel(
-                                                                index);
+                                                            .deleteLevel(index);
                                                         Navigator.pop(context);
                                                       },
                                                       child: const Text(
@@ -352,44 +392,49 @@ class _AddLevelState extends State<AddLevel> {
                                           builder: (_) => AlertDialog(
                                                 title: Column(
                                                   children: [
-                                                    // HospitalTypeChoose(
-                                                    //   controller:
-                                                    //       editingTypeController,
-                                                    //   selectedType:
-                                                    //       _selectedType,
-                                                    //   onChange: (value) {
-                                                    //     setState(() {
-                                                    //       _selectedType = value;
-                                                    //       editingTypeController
-                                                    //           .text = value!;
-                                                    //     });
-                                                    //   },
-                                                    //   width:
-                                                    //       MediaQuery.of(context)
-                                                    //           .size
-                                                    //           .width,
-                                                    //   fillColor:
-                                                    //       const Color.fromARGB(
-                                                    //           31,
-                                                    //           255,
-                                                    //           255,
-                                                    //           255),
-                                                    //   labelColor: const Color(
-                                                    //       0xFFE63946),
-                                                    //   focusBorderColor:
-                                                    //       const Color(
-                                                    //           0xFFE63946),
-                                                    //   errorBorderColor:
-                                                    //       Colors.red,
-                                                    // ),
+                                                    GestureDetector(onTap: () {
+                                                      showBottomSheet();
+                                                    }, child: Obx(() {
+                                                      return adminController
+                                                                  .pickedImageFile
+                                                                  .value ==
+                                                              null
+                                                          ? Card(
+                                                              elevation: 10,
+                                                              child: Container(
+                                                                height: 200,
+                                                                width: 200,
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10),
+                                                                    image: const DecorationImage(
+                                                                        image: AssetImage(
+                                                                            "assets/images/postPlaceHolder.jpeg"),
+                                                                        fit: BoxFit
+                                                                            .cover)),
+                                                              ))
+                                                          : Card(
+                                                              elevation: 10,
+                                                              child: Container(
+                                                                height: 200,
+                                                                width: 200,
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10),
+                                                                    image: DecorationImage(
+                                                                        image: FileImage(adminController
+                                                                            .pickedImageFile
+                                                                            .value!),
+                                                                        fit: BoxFit
+                                                                            .cover)),
+                                                              ));
+                                                    })),
                                                     TextField(
                                                       controller:
                                                           editingNameController,
                                                     ),
-                                                    // TextField(
-                                                    //   controller:
-                                                    //       editingAddressController,
-                                                    // ),
                                                   ],
                                                 ),
                                                 actions: [
@@ -397,7 +442,12 @@ class _AddLevelState extends State<AddLevel> {
                                                       style: const ButtonStyle(
                                                           backgroundColor:
                                                               MaterialStatePropertyAll(
-                                                                  Color.fromARGB(255, 21, 49, 71))),
+                                                                  Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          21,
+                                                                          49,
+                                                                          71))),
                                                       onPressed: () {
                                                         Navigator.pop(context);
                                                       },
@@ -411,17 +461,23 @@ class _AddLevelState extends State<AddLevel> {
                                                       style: const ButtonStyle(
                                                           backgroundColor:
                                                               MaterialStatePropertyAll(
-                                                                  Color.fromARGB(255, 21, 49, 71))),
+                                                                  Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          21,
+                                                                          49,
+                                                                          71))),
                                                       onPressed: () {
-                                                        adminController.updateLevelData(
-                                                            index,
-                                                            editingNameController
-                                                                .text,
-                                                            // editingTypeController
-                                                            //     .text,
-                                                            // editingAddressController
-                                                            //     .text
-                                                                );
+                                                        adminController
+                                                            .updateLevelData(
+                                                          index,
+                                                          editingNameController
+                                                              .text,
+                                                          // editingTypeController
+                                                          //     .text,
+                                                          // editingAddressController
+                                                          //     .text
+                                                        );
                                                         Navigator.pop(context);
                                                       },
                                                       child: const Text(

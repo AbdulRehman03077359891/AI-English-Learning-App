@@ -182,7 +182,8 @@ class _UserScreenState extends State<UserScreen> {
                                           top: 0,
                                           bottom: 0,
                                           child: InkWell(
-                                            child: SizedBox(height: 150,width: 150, child: Image.asset(imagesList[itemIndex])),
+                                            child: SizedBox(height: 150,width: 150, child: Image.network(userDashboardController
+                                                            .level[itemIndex]["levelImage"])),
                                           ),
                                         ),
                                       ],

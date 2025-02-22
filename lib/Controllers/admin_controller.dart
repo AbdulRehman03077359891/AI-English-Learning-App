@@ -4,6 +4,7 @@ import 'package:ai_english_learning/Widgets/notification_message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -13,6 +14,7 @@ import 'package:permission_handler/permission_handler.dart';
 class AdminController extends GetxController {
   var isLoading = true;
   var levelList = [];
+  late String _imageLink = '';
   final pickedImageFile = Rx<File?>(null);
   var allLevels = [];
   var selectedDishes = [];
@@ -136,6 +138,11 @@ class AdminController extends GetxController {
     setLoading(true);
     if (name.isEmpty) {
       notify("error", "Please enter a valid name");
+      setLoading(false);
+      return;
+    } else if (pickedImageFile.value == null) {
+      notify("error", "Please pick an image");
+      setLoading(false);
       return;
       // } else if (type.isEmpty) {
       //   notify("error", "Please enter a valid type");
@@ -161,6 +168,15 @@ class AdminController extends GetxController {
     name,
     //  type, address
   ) async {
+    FirebaseStorage storage = FirebaseStorage.instance;
+      Reference storageRef =
+          storage.ref().child("level/${pickedImageFile.value!.path}");
+      UploadTask upLoad = storageRef.putFile(pickedImageFile.value as File);
+      TaskSnapshot snapshot = await upLoad.whenComplete(() => ());
+      String downloadUrl = await snapshot.ref.getDownloadURL();
+
+      _imageLink = downloadUrl;
+      
     CollectionReference levelsInst =
         FirebaseFirestore.instance.collection("Levels");
 
@@ -170,6 +186,7 @@ class AdminController extends GetxController {
     if (doc.exists) {
       await levelsInst.doc(docKey).update({
         "name": name,
+        "levelImage": _imageLink,
         // "type": type,
         // "address": address,
       }).then((_) {
@@ -193,14 +210,39 @@ class AdminController extends GetxController {
     String name,
     //  String type, String address
   ) {
-    setLoading(true);
-    if (name.isEmpty) {
-      notify("error", "Please enter level's name");
-    } else {
-      fireStoreDBase(
-        name,
-        //  type, address
-      );
+    try {
+      setLoading(true);
+      if (name.isEmpty) {
+        notify("error", "Please enter level's name.");
+      } else if (pickedImageFile.value == null) {
+        notify("error", "Please pick an image.");
+      } else {
+        imageStoreStorage(
+          name,
+          //  type, address
+        );
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  //Storing Category Image -----------------------------------------------
+  imageStoreStorage(name) async {
+    try {
+      FirebaseStorage storage = FirebaseStorage.instance;
+      Reference storageRef =
+          storage.ref().child("level/${pickedImageFile.value!.path}");
+      UploadTask upLoad = storageRef.putFile(pickedImageFile.value as File);
+      TaskSnapshot snapshot = await upLoad.whenComplete(() => ());
+      String downloadUrl = await snapshot.ref.getDownloadURL();
+
+      _imageLink = downloadUrl;
+      fireStoreDBase(name);
+      update();
+    } catch (e) {
+      setLoading(false);
+      notify("error", "ImageStorages ${e.toString()}");
     }
   }
 
@@ -215,6 +257,7 @@ class AdminController extends GetxController {
     var levelObj = {
       "name": name,
       "status": true,
+      "levelImage": _imageLink,
       "levelKey": key,
       "selected": false,
     };
@@ -277,12 +320,14 @@ class AdminController extends GetxController {
     try {
       CroppedFile? croppedFile = await ImageCropper().cropImage(
         sourcePath: imageFile.path,
+        // aspectRatio:
+        //     const CropAspectRatio(ratioX: 2, ratioY: 3), // Portrait Aspect Ratio
         uiSettings: [
           AndroidUiSettings(
               toolbarTitle: "Image Cropper",
-              toolbarColor: const Color.fromARGB(255, 111, 2, 43),
+              toolbarColor: const Color.fromARGB(255, 119, 118, 119),
               toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.ratio3x2,
+              initAspectRatio: CropAspectRatioPreset.square,
               lockAspectRatio: true,
               hideBottomControls: true),
           IOSUiSettings(

@@ -86,6 +86,9 @@ class SpeechController extends GetxController {
   void _splitTextIntoChunks(String text, {int chunkSize = 1000}) {
     // Clean and replace characters
     String cleanedText = text
+        .replaceAll("0)", "")
+        .replaceAll("=>", "")
+        .replaceAll("->", "")
         .replaceAll("/", ", , ")
         .replaceAll(RegExp(r'#+'), '') // Remove hashes
         .replaceAll('** ', ', , ') // Replace commas with asterisks
